@@ -11,7 +11,10 @@ spring-boot = "3.4.2"
 spring-dependency-management = "1.1.7"
 springmockk = "4.0.2"
 mockk = "1.13.16"
-line-messaging-client = "9.6.0"
+jooq-gradle = "9.0"
+flyway = "10.15.0"
+jooq = "3.19.15"
+mysql-testcontainer = "1.20.4"
 
 [libraries]
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
@@ -36,6 +39,11 @@ kotest-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test" }
 kotest-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "kotest-arrow" }
 kotest-wiremock = { module = "io.kotest.extensions:kotest-extensions-wiremock", version.ref = "kotest-wiremock" }
 
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
+mysql-connector = { module = "com.mysql:mysql-connector-j"}
+mysql-testcontainer = { module = "org.testcontainers:mysql", version.ref = "mysql-testcontainer" }
+
 arrow = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
@@ -46,6 +54,7 @@ spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-s
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-jooq = { module = "org.springframework.boot:spring-boot-starter-jooq" }
 springmockk = { module = "com.ninja-squad:springmockk", version.ref = "springmockk" }
 
 [bundles]
@@ -60,3 +69,7 @@ test-fixtures = { id = "java-test-fixtures" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependencyManagement = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+jooq = { id = "nu.studer.jooq", version.ref = "jooq-gradle" }
+flyway-gradle = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+
+
