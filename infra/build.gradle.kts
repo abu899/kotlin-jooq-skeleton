@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath(libs.flyway.mysql)
         classpath(libs.mysql.testcontainer)
+        classpath(libs.mysql.connector)
     }
 }
 
@@ -20,9 +21,10 @@ dependencies {
 
     implementation(libs.flyway.core)
     implementation(libs.flyway.mysql)
+    implementation(libs.mysql.testcontainer)
+
     runtimeOnly(libs.mysql.connector)
     jooqGenerator(libs.mysql.connector)
-    implementation(libs.mysql.testcontainer)
 }
 
 jooq {
@@ -32,9 +34,9 @@ jooq {
             jooqConfiguration.apply {
                 jdbc.apply {
                     driver = "com.mysql.cj.jdbc.Driver"
-                    url = "jdbc:mysql://localhost:3306/sample"
-                    user = "sa"
-                    password = ""
+                    // url = "jdbc:mysql://localhost:3306/sample"
+                    // user = "sa"
+                    // password = ""
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
@@ -43,15 +45,33 @@ jooq {
                         inputSchema = "sample"
                     }
                     generate.apply {
+                        isDaos = true
+                        isUdts = true
                         isDeprecated = false
                         isRecords = true
-                        isImmutablePojos = true
                         isFluentSetters = true
+
+                        //            isPojosAsKotlinDataClasses = false
+                        //            isImmutablePojos = false
+                        //            isPojos = false
+                        isPojosAsKotlinDataClasses = false
+                        isImmutablePojos = false
+                        isPojos = false
+                        //            isPojosAsKotlinDataClasses = true
+                        //            isImmutablePojos = true
+                        //            isPojos = true
+
+                        // cause https://github.com/jOOQ/jOOQ/issues/14785
+                        isRecordsImplementingRecordN = false
+                        isKotlinNotNullRecordAttributes = true
+                        isKotlinNotNullPojoAttributes = true
+                        isKotlinNotNullInterfaceAttributes = true
                     }
                     target.apply {
                         packageName = "com.brett.sample.persistence.model"
                         directory = "build/generated-src/jooq/main"
                     }
+                    strategy.name = "org.jooq.codegen.example.JPrefixGeneratorStrategy"
                 }
             }
         }
@@ -65,8 +85,8 @@ tasks.named("generateJooq") {
         // run MySQL container
         mySqlContainer = MySQLContainer<Nothing>("mysql:8.0").apply {
             withDatabaseName("sample")
-            withUsername("sa")
-            withPassword("")
+            withUsername("root")
+            withPassword("root")
             withEnv("TZ", "Asia/Seoul")
             withCommand("mysqld", "--character-set-server=utf8mb4")
             withReuse(false)
